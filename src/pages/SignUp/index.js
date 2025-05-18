@@ -20,7 +20,7 @@ export default function SignUp(){
         </div>
 
         <form>
-          <h1>Fazer cadastro</h1>
+        <h1>Fazer cadastro</h1>
           <input 
             type="text" 
             placeholder="Digite seu nome..."
