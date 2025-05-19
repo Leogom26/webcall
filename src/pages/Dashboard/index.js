@@ -1,7 +1,9 @@
 
-
-export default function Dashboard(){
-  <div>
-    <h1>Pagina dashboard!</h1>
-  </div>
+export default function NotFound(){
+  return(
+    <div>
+      <h1>Pagina Dashboard</h1>
+    </div>
+  )
 }
+

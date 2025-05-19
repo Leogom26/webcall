@@ -13,11 +13,11 @@ export default function SignIn(){
 
   const { signIn } = useContext(AuthContext)
 
- function handleSubmit(e){
+ async function handleSubmit(e){
     e.preventDefault()
 
     if(email !== "" && password !== ""){
-      signIn(email, password)
+      await signIn(email, password)
     }
     
   }

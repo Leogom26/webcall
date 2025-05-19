@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { auth, db } from '../service/firebaseConnection'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,11 +15,37 @@ function AuthProvider({children}){
 
   const navigate = useNavigate();
 
-  // function signIn(email, password){
-  //   console.log(email)
-  //   console.log(password)
-  //   alert('logado')
-  // }
+  async function signIn(email, password){
+    setLoadingAuth(true);
+
+    await signInWithEmailAndPassword(auth, email, password)
+    .then( async(value)=>{
+      let uid = value.user.uid
+
+      const docRef = doc(db, 'user', uid);
+      const docSnap = await getDoc(docRef);
+
+      let data = {
+        uid: uid,
+        nome: docSnap.data().nome,
+        email: value.user.email,
+        avatarUrl: docSnap.data().avatarUrl
+      }
+
+        setUser(data)
+        storageUser(data)
+        setLoadingAuth(false)
+        toast.success('Seja bem-vindo(a) de volta')
+        navigate('/dashboard')
+    })
+    .catch(()=>{
+      console.log('erro ao cadastrar')
+      setLoadingAuth(false)
+      toast.error('Ops! algo deu errado')
+    })
+  }
+
+
 
   async function signUp(email, password, name){
     setLoadingAuth(true);
@@ -50,8 +76,8 @@ function AuthProvider({children}){
 
 
     })
-    .catch((error)=>{
-      console.log('erro ao cadastrar' + error)
+    .catch(()=>{
+      console.log('erro ao cadastrar')
       setLoadingAuth(false)
     })
   }
@@ -65,7 +91,7 @@ function AuthProvider({children}){
       value={{
         signed: !! user,
         user,
-        // signIn,
+        signIn,
         signUp,
         loadingAuth
       }}
