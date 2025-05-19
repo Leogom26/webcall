@@ -1,15 +1,25 @@
-
-import { useState } from 'react'
 import './signup.css'
-
+import { useState, useContext } from 'react'
 import logo from '../../assets/logo.png'
 import { Link } from 'react-router-dom'
+
+import { AuthContext } from '../../contexts/auth'
 
 export default function SignUp(){
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { signUp } = useContext(AuthContext)
+  
+  function handleSubmit(e){
+    e.preventDefault()
+
+    if(name !== "" && email !== "" && password !== ""){
+      signUp(email, password, name)
+    }
+    
+  }
 
   return(
     <div className="container-center">
@@ -18,7 +28,7 @@ export default function SignUp(){
           <img src={logo} alt="Logo do sistema de chamados" />
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit}>
         <h1>Fazer cadastro</h1>
           <input 
             type="text" 
