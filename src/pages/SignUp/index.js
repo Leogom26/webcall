@@ -5,9 +5,8 @@ import './signup.css'
 import logo from '../../assets/logo.png'
 import { Link } from 'react-router-dom'
 
-
 export default function SignUp(){
-  const [nome, setNome] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,8 +23,8 @@ export default function SignUp(){
           <input 
             type="text" 
             placeholder="Digite seu nome..."
-            value={nome}
-            onChange={ (e) => setNome(e.target.value) }
+            value={name}
+            onChange={ (e) => setName(e.target.value) }
           />
 
           <input 
