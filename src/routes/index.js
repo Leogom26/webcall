@@ -3,7 +3,11 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';   
 import NotFound from '../pages/NotFound';
 import Dashboard from "../pages/Dashboard";
+import Profile from "../pages/Profile";
+
 import RootLayout from "../layouts/RootLayout";
+
+import Private from "./private"
 
 const router = createBrowserRouter([
   {
@@ -20,7 +24,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard',
-        element: <Dashboard />
+        element: <Private><Dashboard /></Private>
+      },
+      {
+        path: '/profile',
+        element: <Private><Profile /></Private>
       },
     ]
   },

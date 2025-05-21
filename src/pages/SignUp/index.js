@@ -1,6 +1,5 @@
-import './signup.css'
-import { useState, useContext } from 'react'
-import logo from '../../assets/logo.png'
+import { useState, useContext  } from 'react'
+import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom'
 
 import { AuthContext } from '../../contexts/auth'
@@ -10,15 +9,15 @@ export default function SignUp(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signUp, loadingAuth } = useContext(AuthContext)
-  
-  async function handleSubmit(e){
-    e.preventDefault()
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
-    if(name !== "" && email !== "" && password !== ""){
-      await signUp(email, password, name)
+  async function handleSubmit(e){
+    e.preventDefault();
+
+    if(name !== '' && email !== '' && password !== ''){
+     await signUp(email, password, name)
     }
-    
+
   }
 
   return(
@@ -29,10 +28,10 @@ export default function SignUp(){
         </div>
 
         <form onSubmit={handleSubmit}>
-        <h1>Fazer cadastro</h1>
+          <h1>Nova conta</h1>
           <input 
             type="text" 
-            placeholder="Digite seu nome..."
+            placeholder="Seu nome"
             value={name}
             onChange={ (e) => setName(e.target.value) }
           />
@@ -50,13 +49,13 @@ export default function SignUp(){
             value={password}
             onChange={ (e) => setPassword(e.target.value) }
           />
+
           <button type="submit">
-            { loadingAuth ? 'Carregando...' : 'Cadastrar' }
+            {loadingAuth ? 'Carregando...' : 'Cadastrar'}
           </button>
-          
         </form>
 
-        <Link to="/">Já possui uma conta? Faça login!</Link>
+        <Link to="/">Já possui uma conta? Faça login</Link>
 
       </div>
     </div>

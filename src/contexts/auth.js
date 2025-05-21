@@ -1,6 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { auth, db } from '../service/firebaseConnection'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,25 @@ function AuthProvider({children}){
   // eslint-disable-next-line 
   const [user, setUser] = useState(null)
   const [loadingAuth, setLoadingAuth] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function loadUsert(){
+      const storageUser = localStorage.getItem('@webcall')
+
+      if(storageUser){
+        setUser(JSON.parse(storageUser))
+      }
+
+      setLoading(false)
+
+    }
+
+    loadUsert();
+
+  }, []);
 
   async function signIn(email, password){
     setLoadingAuth(true);
@@ -86,6 +103,12 @@ function AuthProvider({children}){
     localStorage.setItem('@webcall', JSON.stringify(data))
   }
 
+  async function logout() {
+    await signOut(auth)
+    localStorage.removeItem('@webcall')
+    setUser(null);
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -93,7 +116,11 @@ function AuthProvider({children}){
         user,
         signIn,
         signUp,
-        loadingAuth
+        logout,
+        loadingAuth,
+        loading,
+        storageUser,
+        setUser
       }}
     >
       {children}
